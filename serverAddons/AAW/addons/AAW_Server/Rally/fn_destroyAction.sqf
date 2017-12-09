@@ -13,7 +13,7 @@
     Returns:
     None
 */
-private _title = "Destroy Rally Point";
+private _title = QLSTRING(Destroy);
 private _iconIdle = "\a3\ui_f\data\gui\rsc\rscdisplayarsenal\cargoput_ca.paa";
 private _iconProgress = "\a3\ui_f\data\gui\rsc\rscdisplayarsenal\cargoput_ca.paa";
 private _showCondition = {

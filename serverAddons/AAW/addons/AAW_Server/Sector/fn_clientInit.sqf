@@ -45,7 +45,7 @@ GVAR(currentSector) = objNull;
     private _designator = _sector getVariable ["designator", ""];
 
     if ((side group CLib_Player) isEqualTo _newSide) exitWith {
-        ["SECTOR CAPTURED", _sectorName, [
+        [QLSTRING(SECTORCAPTURED), _sectorName, [
             ["A3\ui_f\data\gui\rsc\rscdisplaymultiplayersetup\flag_civil_ca.paa", 1, [0, 0.4, 0.8, 1], 1],
             ["A3\ui_f\data\gui\rsc\rscdisplaymultiplayersetup\flag_civil_empty_ca.paa"],
             [format ["A3\ui_f\data\igui\cfg\simpletasks\letters\%1_ca.paa", toLower _designator], 0.57]
@@ -53,7 +53,7 @@ GVAR(currentSector) = objNull;
     };
 
     if ((side group CLib_Player) isEqualTo _oldSide) exitWith {
-        ["SECTOR LOST", _sectorName, [
+        [QLSTRING(SECTORLOST), _sectorName, [
             ["A3\ui_f\data\gui\rsc\rscdisplaymultiplayersetup\flag_opfor_ca.paa", 1, [0.6, 0, 0, 1], 1],
             ["A3\ui_f\data\gui\rsc\rscdisplaymultiplayersetup\flag_opfor_empty_ca.paa"],
             [format ["A3\ui_f\data\igui\cfg\simpletasks\letters\%1_ca.paa", toLower _designator], 0.57]
@@ -61,7 +61,7 @@ GVAR(currentSector) = objNull;
     };
 
     if (sideUnknown isEqualTo _newSide && !((side group CLib_Player) isEqualTo _oldSide)) exitWith {
-        ["SECTOR NEUTRALIZED", _sectorName, [
+        [QLSTRING(SECTORNEUTRALIZED), _sectorName, [
             ["A3\ui_f\data\gui\rsc\rscdisplaymultiplayersetup\flag_civil_ca.paa", 1,  [0.93, 0.7, 0.01,0.6], 1],
             ["A3\ui_f\data\gui\rsc\rscdisplaymultiplayersetup\flag_civil_empty_ca.paa"],
             [format ["A3\ui_f\data\igui\cfg\simpletasks\letters\%1_ca.paa", toLower _designator], 0.57]

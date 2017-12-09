@@ -23,7 +23,7 @@ params ["_target"];
     private _position = _target modelToWorld [0, 0, 0];
     private _dirVector = vectorDirVisual CLib_Player;
     if (CLib_Player distance _position >= 20) exitWith {
-        ["FOB NOT PLACABLE", "Not enough space available!"] call EFUNC(Common,displayHint);
+        [QLSTRING(NotPlacable), QLSTRING(NotEnoughSpace)] call EFUNC(Common,displayHint);
     };
 
     private _composition = getText (missionConfigFile >> QPREFIX >> "Sides" >> (str playerSide) >> "FOBComposition");
@@ -35,8 +35,8 @@ params ["_target"];
     private _pointId = ["FOB " + _text, "FOB", _position, playerSide, -1, "A3\ui_f\data\map\markers\military\triangle_ca.paa", "A3\ui_f\data\map\markers\military\triangle_ca.paa", _pointObjects] call EFUNC(Common,addDeploymentPoint);
 
     ["displayNotification", side group CLib_player, [
-        "NEW FOB PLACED",
-        "near " + _text,
+        QLSTRING(NewFOB),
+        [QLSTRING(Near), _text],
         [["A3\ui_f\data\map\respawn\respawn_background_ca.paa", 1, [0, 0.4, 0.8, 1],1],["A3\ui_f\data\map\markers\military\triangle_ca.paa", 0.8]]
     ]] call CFUNC(targetEvent);
 

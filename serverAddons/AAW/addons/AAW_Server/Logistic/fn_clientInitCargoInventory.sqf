@@ -15,7 +15,7 @@
 */
 
 [
-    {getText (configFile >> "CfgActions" >> "Gear" >> "text")},
+    getText (configFile >> "CfgActions" >> "Gear" >> "text"),
     GVAR(CargoClasses),
     5,
     {!(_target getVariable ["hasInventory", true])},

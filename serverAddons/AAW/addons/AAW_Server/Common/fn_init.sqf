@@ -43,7 +43,7 @@ if (hasInterface) then {
         _ctrl ctrlSetPosition [safeZoneX + safeZoneW - PX(50), safeZoneY + safeZoneH - PY(8), PX(50), PY(10)];
         _ctrl ctrlSetFade 0.4;
         _ctrl ctrlSetStructuredText parseText format [
-            "<t align='right' size='%1'>Mission Version: %2<br />Server Version: %3</t><br /><t align='right' size='%4'>The current version of AAW is in a stage of early Alpha.<br />Every element is subject to change at the current state of development</t>",
+            MLOC(IngameVersionInfo),
             PY(1.8) / 0.035,
             (GVAR(VersionInfo) select 0) select 0,
             (GVAR(VersionInfo) select 1) select 0,
@@ -62,12 +62,14 @@ if (hasInterface) then {
                     _ctrl ctrlSetPosition [safeZoneX + safeZoneW - PX(30), safeZoneY + safeZoneH - PY(30), PX(30), PY(30)];
                     _ctrl ctrlSetFade 0;
                     _ctrl ctrlSetStructuredText parseText format [
-                        "<t align='center'><img color='#ffffff' shadow='0' size='%1' image='ui\media\AAWLogo_ca.paa' /></t><t align='center' size='%2'><br />Mission Version: %3<br />Server Version: %4<br /></t><t size='%5' align='center' font='PuristaBold'><a href='https://github.com/TaktiCool/ArmaAtWar/blob/master/.github/CONTRIBUTING.md'>REPORT AN ISSUE</a></t>",
+                        MLOC(PauseVersionInfo),
                         PY(15) / 0.035,
                         PY(1.8) / 0.035,
                         (GVAR(VersionInfo) select 0) select 0,
                         (GVAR(VersionInfo) select 1) select 0,
-                        PY(2.2) / 0.035
+                        PY(2.2) / 0.035,
+                        "ui\media\AAWLogo_ca.paa",
+                        "https://github.com/TaktiCool/ArmaAtWar/blob/master/.github/CONTRIBUTING.md"
                     ];
                     _ctrl ctrlCommit 0;
                 }, {!isNull (findDisplay 49)}, []] call CFUNC(waitUntil);

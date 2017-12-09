@@ -30,7 +30,7 @@
         private _playerSide = str side group CLib_Player;
         private _vehicleSide = _vehicle getVariable ["side", _playerSide];
         if (_vehicleSide != _playerSide) exitWith {
-            ["VEHICLE LOCKED", "You are not allowed to use enemy vehicles!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+            [QLSTRING(VEHICLELOCKED), QLSTRING(EnemyVehicle), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
             true
         };
 
@@ -46,13 +46,13 @@
 
         // Pilot kit for pilot seats.
         if (_actionName in ["GetInPilot", "MoveToPilot"] && _isPilot == 0) exitWith {
-            ["VEHICLE LOCKED", "Please select a pilot role first!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+            [QLSTRING(VEHICLELOCKED), QLSTRING(PilotRequired), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
             true
         };
 
         // Gunner and commander always require a driver.
         if (_actionName in ["GetInGunner", "GetInCommander", "MoveToGunner", "MoveToCommander"] && (!alive (driver _vehicle) || {driver _vehicle == CLib_Player})) exitWith {
-            ["VEHICLE LOCKED", "Driver needs to be present<br>before boarding a gunner seat!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+            [QLSTRING(VEHICLELOCKED), QLSTRING(DriverRequired), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
             true
         };
 
@@ -83,13 +83,13 @@
             if (!(getText (_turretConfig >> "body") == "") && ([_vehicle, ["Air", "Tank", "Wheeled_APC_F"]] call CFUNC(isKindOfArray))) exitWith {
                 // Turrets with guns always require a driver (except statics).
                 if (!alive (driver _vehicle) || {driver _vehicle == CLib_Player}) exitWith {
-                    ["VEHICLE LOCKED", "Driver needs to be present<br>before boarding a gunner seat!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+                    [QLSTRING(VEHICLELOCKED), QLSTRING(DriverRequired), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
                     true
                 };
 
                 // Turrets with guns in air, tank and wheeled apc require crew kit.
                 if (([_vehicle, ["Air", "Tank", "Wheeled_APC_F"]] call CFUNC(isKindOfArray)) && _isCrew == 0) exitWith {
-                    ["VEHICLE LOCKED", "Please select a crew role first!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+                    [QLSTRING(VEHICLELOCKED), QLSTRING(CrewRequired), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
                     true
                 };
 
@@ -101,7 +101,7 @@
                 // This is a turret without a gun and without the players handheld weapon (only copilot afaik).
                 // Copilot need pilot kit
                 if (_vehicle isKindOf "Air" && _isPilot == 0) exitWith {
-                    ["VEHICLE LOCKED", "Please select a pilot role first!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+                    [QLSTRING(VEHICLELOCKED), QLSTRING(PilotRequired), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
                     true
                 };
 
@@ -114,7 +114,7 @@
         // Driver
         // Tank and APC driver require crew kit.
         if (([_vehicle, ["Tank", "Wheeled_APC_F"]] call CFUNC(isKindOfArray)) && _isCrew == 0) exitWith {
-            ["VEHICLE LOCKED", "Please select a crew role first!", ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
+            [QLSTRING(VEHICLELOCKED), QLSTRING(CrewRequired), ["A3\modules_f\data\iconlock_ca.paa"]] call EFUNC(Common,displayHint);
             true
         };
 

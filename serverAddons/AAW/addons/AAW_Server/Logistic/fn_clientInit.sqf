@@ -36,14 +36,14 @@ GVAR(ppColor) = ppEffectCreate ["colorCorrections", 1502];
 
 
         [
-            "Request Resources",
+            QLSTRING(OpenRequestScreen),
             _objects,
             3,
             compile format ["(str playerside) == ""%1"" && ((leader CLib_Player) == CLib_Player) && (CLib_Player getVariable [""%2"", false])", _side, QEGVAR(Kit,isLeader)],
             FUNC(buildResourcesDisplay),
             ["onActionAdded", {
                 params ["_id", "_target"];
-                _target setUserActionText [_id, "Request Resources", "<img size='3' shadow='0' color='#ffffff' image='\A3\3den\data\displays\display3den\panelright\modemodules_ca.paa' shadow=2/><br/><br/>Request Resources"];
+                _target setUserActionText [_id, MLOC(OpenRequestScreen), format ["<img size='3' shadow='0' color='#ffffff' image='\A3\3den\data\displays\display3den\panelright\modemodules_ca.paa' shadow=2/><br/><br/>%1", MLOC(OpenRequestScreen)]];
             },
             "priority", 1000, "showWindow", true]
         ] call CFUNC(addAction);

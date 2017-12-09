@@ -15,7 +15,10 @@
 */
 
 [
-    {format [MLOC(Drag), getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName")]},
+    {
+        private _displayName = _target getVariable [QGVAR(displayName), getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName")];
+        format [MLOC(Drag), _displayName]
+    },
     GVAR(DraggableClasses),
     3,
     {
@@ -42,7 +45,10 @@
 ] call CFUNC(addAction);
 
 [
-    {format [MLOC(loadItem), getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName")]},
+    {
+        private _displayName = _target getVariable [QGVAR(displayName), getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName")];
+        format [MLOC(loadItem), _displayName]
+    },
     GVAR(CargoClasses),
     10,
     {
@@ -91,7 +97,10 @@
 ] call CFUNC(addAction);
 
 [
-    {format [MLOC(UnloadItem), getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName")]},
+    {
+        private _displayName = _target getVariable [QGVAR(displayName), getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName")];
+        format [MLOC(UnloadItem), _displayName]
+    },
     GVAR(CargoClasses),
     10,
     {

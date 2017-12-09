@@ -19,7 +19,7 @@
 
     private _vehicleConfig = configFile >> "CfgVehicles" >> typeOf _vehicle;
     [
-        "NEW VEHICLE AVAILABLE",
+        QLSTRING(NewVehicleAvailable),
         getText (_vehicleConfig >> "displayName"),
         [
             ["\A3\ui_f_curator\data\rsccommon\rscattributerespawnvehicle\start_ca.paa", 1.2, [1,1,1,1],1],

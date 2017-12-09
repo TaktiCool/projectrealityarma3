@@ -15,7 +15,7 @@
 */
 
 [
-    {"Unload wounded person"},
+    QLSTRING(Unlouad),
     ["LandVehicle", "Air", "Ship"],
     3,
     {

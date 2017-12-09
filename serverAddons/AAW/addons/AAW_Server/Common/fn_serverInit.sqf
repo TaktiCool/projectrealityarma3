@@ -28,8 +28,8 @@
     private _icon = missionNamespace getVariable [format [QGVAR(Flag_%1), _side], "#(argb,8,8,3)color(0.5,0.5,0.5,1)"];
 
     ["displayNotification", _side, [
-        "SIDES UNBALANCED",
-        "Please change sides",
+        QLSTRING(SIDESUNBALANCED),
+        QLSTRING(changeSide),
         [_icon]
     ]] call CFUNC(targetEvent);
 }, 120] call CFUNC(addPerFrameHandler);

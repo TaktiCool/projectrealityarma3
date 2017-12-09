@@ -27,7 +27,12 @@ GVAR(supplyPoints) = [];
     if (!(isNil "_supplyUses" && isNil "_rearmAmount" && isNil "_refuelAmount" && isNil "_repairAmount")) then {
         private _index = GVAR(supplyPoints) pushBack _object;
         [
-            {format ["Supply %1 at %2", getText (configFile >> "CfgVehicles" >> typeOf cursorObject >> "displayName"), getText (configFile >> "CfgVehicles" >> typeOf _args >> "displayName")]},
+            {
+                format [MLOC(Supply),
+                    getText (configFile >> "CfgVehicles" >> typeOf _target >> "displayName"),
+                    getText (configFile >> "CfgVehicles" >> typeOf _args >> "displayName")
+                ];
+            },
             ["Air", "LandVehicle", "Ship"],
             5,
             format ["call {

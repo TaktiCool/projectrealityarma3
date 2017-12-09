@@ -13,7 +13,7 @@
     Returns:
     None
 */
-private _title = "Defuse";
+private _title = QLSTRING(Defuse);
 private _iconIdle = "\A3\Ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa";
 private _iconProgress = "\A3\Ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa";
 private _showCondition = {

@@ -14,7 +14,7 @@
     None
 */
 params ["_types"];
-private _title = "Build";
+private _title = QLSTRING(BUILD);
 private _iconIdle = "\a3\ui_f\data\gui\rsc\rscdisplayarsenal\map_ca.paa";
 private _iconProgress = "\a3\ui_f\data\gui\rsc\rscdisplayarsenal\map_ca.paa";
 private _showCondition = {

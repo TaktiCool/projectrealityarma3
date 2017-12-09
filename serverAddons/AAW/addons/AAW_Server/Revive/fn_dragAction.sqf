@@ -30,7 +30,7 @@ DFUNC(dropPlayer) = {
 };
 
 [
-    {"Drag"},
+    {format [MLOC(Drag), name _target]},
     "CAManBase",
     2,
     {
