@@ -34,7 +34,7 @@ DFUNC(getAlphaFromX) = {
 };
 
 // Function to show the compass
-DFUNC(showCompass) = {
+DFUNC(displayCompass) = {
     // Reset the cache
     GVAR(lineAlphaCache) = GVAR(lineAlphaCache) apply {1};
     GVAR(bearingAlphaCache) = GVAR(bearingAlphaCache) apply {1};
@@ -43,17 +43,21 @@ DFUNC(showCompass) = {
     ([UIVAR(Compass)] call BIS_fnc_rscLayer) cutRsc [UIVAR(Compass), "PLAIN", 0, false];
 };
 
+DFUNC(hideCompass) = {
+    ([UIVAR(Compass)] call BIS_fnc_rscLayer) cutFadeOut 0;
+};
+
 // Hide the compass on respawn screen
 [UIVAR(RespawnScreen_onLoad), {
-    ([UIVAR(Compass)] call BIS_fnc_rscLayer) cutFadeOut 0;
+    call FUNC(hideCompass)
 }] call CFUNC(addEventHandler);
 [UIVAR(RespawnScreen_onUnLoad), {
-    call FUNC(showCompass);
+    call FUNC(displayCompass);
 }] call CFUNC(addEventHandler);
 
 // TODO handle removal of the marker according to engine specs
 addMissionEventHandler ["MapSingleClick", {
-    params ["_units", "_position", "_alt", "_shift"];
+    params ["", "_position", "", "_shift"];
 
     if (!_shift) exitWith {};
 
@@ -61,7 +65,7 @@ addMissionEventHandler ["MapSingleClick", {
 }];
 
 ["missionStarted", {
-    call FUNC(showCompass);
+    call FUNC(displayCompass);
 
     // The draw3D event triggers on each frame if the client window has focus.
     addMissionEventHandler ["Draw3D", {
