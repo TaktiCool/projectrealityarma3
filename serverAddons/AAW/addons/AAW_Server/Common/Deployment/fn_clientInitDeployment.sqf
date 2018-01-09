@@ -48,7 +48,7 @@ GVAR(pointMarkerIds) = [];
 
     {
         private _pointData = [_x, ["name", "type", "position", "availableFor", "spawnTickets", "icon", "mapIcon"]] call FUNC(getDeploymentPointData);
-        _pointData params ["_name", "_type", "_position", "_availableFor", "_spawnTickets", "_icon", "_mapIcon"];
+        _pointData params ["_name", "", "_position", "_availableFor", "_spawnTickets", "", "_mapIcon"];
 
         if (_mapIcon != "") then {
             private _color = _sideColor;
@@ -92,7 +92,6 @@ GVAR(pointMarkerIds) = [];
                 _x,
                 "clicked",
                 {
-                    (_this select 0) params ["_map", "_xPos", "_yPos"];
                     (_this select 1) params ["_deploymentPointId"];
 
                     [QGVAR(DeploymentPointSelected), _deploymentPointId] call CFUNC(localEvent);
