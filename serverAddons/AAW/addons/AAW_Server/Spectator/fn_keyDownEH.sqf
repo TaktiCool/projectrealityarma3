@@ -57,6 +57,7 @@ private _return = switch (_keyCode) do {
                     };
                     case DIK_LCONTROL: {
                         GVAR(teleportMode) = true;
+                        true;
                     };
                     default {
                         false
@@ -68,7 +69,8 @@ private _return = switch (_keyCode) do {
                 params ["", "_keyCode"];
                 switch (_keyCode) do {
                     case DIK_LCONTROL: {
-                        GVAR(teleportMode) = true;
+                        GVAR(teleportMode) = false;
+                        true;
                     };
                     default {
                         false
