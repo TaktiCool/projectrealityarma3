@@ -210,7 +210,7 @@ DFUNC(dik2Char) = {
     _ctrlFOVBarBg ctrlSetText "#(argb,8,8,3)color(0.3,0.3,0.3,1)";
     _ctrlFOVBarBg ctrlCommit 0;
 
-    private _relLength = sqrt (2 - GVAR(CameraFOV)) / sqrt 2;
+    private _relLength = (2 - GVAR(CameraFOV)) / 2;
     private _ctrlFOVBar = _display ctrlCreate ["RscPicture", -1];
     _ctrlFOVBar ctrlSetPosition [
         safeZoneX + safeZoneW - PX(BORDERWIDTH * 3 / 4),
@@ -254,7 +254,7 @@ DFUNC(dik2Char) = {
 
     [QGVAR(CameraFOVChanged), {
         (_this select 1) params ["_ctrl"];
-        private _relLength = sqrt (2 - GVAR(CameraFOV)) / sqrt 2;
+        private _relLength = (2 - GVAR(CameraFOV)) / 2;
         _ctrl ctrlSetPosition [
             safeZoneX + safeZoneW - PX(BORDERWIDTH * 3 / 4),
             safeZoneY + PY(14 * BORDERWIDTH) + PY(4 * BORDERWIDTH) * (1 - _relLength),
