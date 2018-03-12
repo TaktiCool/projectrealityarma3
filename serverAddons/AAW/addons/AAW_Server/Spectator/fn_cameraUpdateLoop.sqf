@@ -57,14 +57,15 @@ switch (GVAR(CameraMode)) do {
 private _position = GVAR(CameraPos);
 private _direction = GVAR(CameraDir) + GVAR(CameraDirOffset);
 private _pitch = GVAR(CameraPitch) + GVAR(CameraPitchOffset);
-
+private _fov = GVAR(CameraFOV);
 // Smoothing
 if (GVAR(CameraSmoothingTime) > 0) then {
     GVAR(CameraPreviousState) params [
         ["_lastTime", time - 0.1],
         ["_lastPosition", _position],
         ["_lastDirection", _direction],
-        ["_lastPitch", _pitch]
+        ["_lastPitch", _pitch],
+        ["_lastFov", _fov]
     ];
 
     private _smoothingAmount = GVAR(CameraSmoothingTime) / (time - _lastTime);
@@ -78,10 +79,15 @@ if (GVAR(CameraSmoothingTime) > 0) then {
     private _cosPitch = ((cos _lastPitch) * _smoothingAmount + cos _pitch) / (1 + _smoothingAmount);
     _pitch = _sinPitch atan2 _cosPitch;
 
-    GVAR(CameraPreviousState) = [time, _position, _direction, _pitch];
+    _fov = (_lastFov * _smoothingAmount + _fov) * (1 / (1 + _smoothingAmount));
+
+    GVAR(CameraPreviousState) = [time, _position, _direction, _pitch, _fov];
 } else {
     GVAR(CameraPreviousState) = [];
 };
 
+_position set [2, (_position select 2) max (getTerrainHeightASL _position)];
+
 GVAR(Camera) setPosASL _position;
 GVAR(Camera) setVectorDirAndUp [[sin _direction * cos _pitch, cos _direction * cos _pitch, sin _pitch], [0, 0, cos _pitch]];
+GVAR(Camera) camSetFov _fov;

@@ -28,6 +28,7 @@ GVAR(CameraSpeedMode) = false;
 GVAR(CameraOffsetMode) = false;
 GVAR(CameraSpeed) = 5;
 GVAR(CameraMode) = 1; // 1: FREE | 2: FOLLOW
+GVAR(CameraFOV) = 0.75;
 GVAR(CameraRelPos) = [0, 0, 0];
 GVAR(CameraFollowTarget) = objNull;
 GVAR(CursorTarget) = objNull;
@@ -101,8 +102,10 @@ DFUNC(dik2Char) = {
     ["Terminate"] call BIS_fnc_EGSpectator;
 
     // Create Camera
-    CLib_player enableSimulation false;
-    GVAR(Camera) = "Camera" camCreate eyePos CLib_player;
+    ["enableSimulation", [CLib_Player, false]] call CFUNC(serverEvent);
+    ["hideObject", [CLib_Player, true]] call CFUNC(serverEvent);
+
+    GVAR(Camera) = "Camera" camCreate (eyePos CLib_player);
     GVAR(Camera) cameraEffect ["internal", "back"];
     CLib_player attachTo [GVAR(Camera), [0, 0, 0]];
     GVAR(CameraPos) = (eyePos CLib_player) vectorAdd [0, 0, GVAR(CameraHeight)];
@@ -138,7 +141,7 @@ DFUNC(dik2Char) = {
     _ctrlInfo ctrlSetPosition [safeZoneX + PX(0.3 + BORDERWIDTH), safeZoneY + PY(0.3), safeZoneW - PX(2 * (0.3 + BORDERWIDTH)), PY(1.8)];
     _ctrlInfo ctrlSetFontHeight PY(1.5);
     _ctrlInfo ctrlSetFont "RobotoCondensed";
-    _ctrlInfo ctrlSetText "[F] Follow Target    [CTRL + F] Follow Unit/Squad/Objective    [M] Map";
+    _ctrlInfo ctrlSetText "[F] Follow Target    [CTRL + F] Follow Unit/Squad/Objective    [M] Map    [TAB] Reset FOV";
     _ctrlInfo ctrlCommit 0;
 
     private _ctrlCameraMode = _display ctrlCreate ["RscStructuredText", -1];
@@ -201,6 +204,30 @@ DFUNC(dik2Char) = {
     _ctrlMouseSmoothingLabel ctrlSetText "SMTH";
     _ctrlMouseSmoothingLabel ctrlCommit 0;
 
+
+    private _ctrlFOVBarBg = _display ctrlCreate ["RscPicture", -1];
+    _ctrlFOVBarBg ctrlSetPosition [safeZoneX + safeZoneW - PX(BORDERWIDTH * 3 / 4), safeZoneY + PY(14 * BORDERWIDTH), PX(BORDERWIDTH / 2), PY(BORDERWIDTH * 4)];
+    _ctrlFOVBarBg ctrlSetText "#(argb,8,8,3)color(0.3,0.3,0.3,1)";
+    _ctrlFOVBarBg ctrlCommit 0;
+
+    private _relLength = sqrt 2 - GVAR(CameraFOV) / sqrt 2;
+    private _ctrlFOVBar = _display ctrlCreate ["RscPicture", -1];
+    _ctrlFOVBar ctrlSetPosition [
+        safeZoneX + safeZoneW - PX(BORDERWIDTH * 3 / 4),
+        safeZoneY + PY(14 * BORDERWIDTH) + PY(4 * BORDERWIDTH) * (1 - _relLength),
+        PX(BORDERWIDTH / 2),
+        PY(BORDERWIDTH * 4) * _relLength
+    ];
+    _ctrlFOVBar ctrlSetText "#(argb,8,8,3)color(1,1,1,1)";
+    _ctrlFOVBar ctrlCommit 0;
+
+    private _ctrlFOVLabel = _display ctrlCreate ["RscTextNoShadow", -1];
+    _ctrlFOVLabel ctrlSetPosition [safeZoneX + safeZoneW - PX(BORDERWIDTH), safeZoneY + PY(18 * BORDERWIDTH), PX(BORDERWIDTH), PY(BORDERWIDTH)];
+    _ctrlFOVLabel ctrlSetFontHeight PY(1.2);
+    _ctrlFOVLabel ctrlSetFont "RobotoCondensedBold";
+    _ctrlFOVLabel ctrlSetText "FOV";
+    _ctrlFOVLabel ctrlCommit 0;
+
     [QGVAR(CameraSpeedChanged), {
         (_this select 1) params ["_ctrl"];
         private _relLength = sqrt GVAR(CameraSpeed) / sqrt CAMERAMAXSPEED;
@@ -224,6 +251,19 @@ DFUNC(dik2Char) = {
         ];
         _ctrl ctrlCommit 0;
     }, _ctrlMouseSmoothingBar] call CFUNC(addEventhandler);
+
+    [QGVAR(CameraFOVChanged), {
+        (_this select 1) params ["_ctrl"];
+        private _relLength = sqrt 2 - GVAR(CameraFOV) / sqrt 2;
+        _ctrl ctrlSetPosition [
+            safeZoneX + safeZoneW - PX(BORDERWIDTH * 3 / 4),
+            safeZoneY + PY(14 * BORDERWIDTH) + PY(4 * BORDERWIDTH) * (1 - _relLength),
+            PX(BORDERWIDTH / 2),
+            PY(BORDERWIDTH * 4) * _relLength
+        ];
+        _ctrl ctrlCommit 0;
+    }, _ctrlFOVBar] call CFUNC(addEventhandler);
+
 
     [QGVAR(CursorTargetChanged), {
         (_this select 0) params ["_target"];
@@ -297,7 +337,7 @@ DFUNC(dik2Char) = {
                         if (GVAR(InputGuessIndex) >= count _guess) then {
                             GVAR(InputGuessIndex) = 0;
                         };
-                        private _friendlySide = EGVAR(Common,competingSides) select 0;
+                        private _friendlySide = (EGVAR(Common,competingSides)) select 0;
 
                         _guess = _guess select [GVAR(InputGuessIndex), count _guess];
                         private _bestGuess = _guess select 0;
@@ -331,7 +371,7 @@ DFUNC(dik2Char) = {
                 _temp
             };
             default {
-                "[F] Follow Cursor Target    [CTRL + F] Follow Unit/Squad/Objective    [M] Map    [F1] Toggle Group Overlay    [F2] Toggle Unit Overlay    [F3] Toggle Sector Overlay"
+                "[F] Follow Cursor Target    [CTRL + F] Follow Unit/Squad/Objective    [M] Map    [F1] Toggle Group Overlay    [F2] Toggle Unit Overlay    [F3] Toggle Sector Overlay    [TAB] Reset FOV"
             };
         };
 

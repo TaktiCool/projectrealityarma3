@@ -126,7 +126,8 @@ private _return = switch (_keyCode) do {
             [QGVAR(updateInput)] call CFUNC(localEvent);
             true
         };
-        false
+        GVAR(CameraFOV) = 0.75;
+        true
     };
     case DIK_RETURN: { // RETURN
         if (GVAR(InputMode) == 1) exitWith {

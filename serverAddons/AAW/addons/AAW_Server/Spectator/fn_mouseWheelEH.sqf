@@ -22,7 +22,7 @@ params [
 
 if (GVAR(CameraSpeedMode)) exitWith {
     GVAR(CameraSpeed) = CAMERAMINSPEED max (CAMERAMAXSPEED min (GVAR(CameraSpeed) * sqrt 2 ^ _delta));
-    [QGVAR(CameraSpeedChanged)] call CFUNC(localEvent);
+    QGVAR(CameraSpeedChanged) call CFUNC(localEvent);
     true
 };
 
@@ -34,7 +34,9 @@ if (GVAR(CameraSmoothingMode)) exitWith {
     if (GVAR(CameraSmoothingTime) <= 0.05) then {
         GVAR(CameraSmoothingTime) = 0;
     };
-    [QGVAR(CameraSmoothingChanged)] call CFUNC(localEvent);
+    QGVAR(CameraSmoothingChanged) call CFUNC(localEvent);
     true
 };
-false
+GVAR(CameraFOV) = 0.01 max (2 min (GVAR(CameraFOV) + _delta));
+QGVAR(CameraFOVChanged) call CFUNC(localEvent);
+true
