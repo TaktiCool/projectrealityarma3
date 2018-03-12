@@ -63,7 +63,7 @@ private _return = switch (_keyCode) do {
 
             _map ctrlAddEventHandler ["Destroy", {
                 params ["_map"];
-
+                [_map] call CFUNC(unregisterMapControl);
                 private _pos = _map ctrlMapScreenToWorld [0.5, 0.5];
                 private _zoom = ctrlMapScale _map;
                 GVAR(MapState) = [_zoom, _pos];
