@@ -47,7 +47,7 @@ private _return = switch (_keyCode) do {
             ctrlMapAnimCommit _map;
 
             [_map] call CFUNC(registerMapControl);
-
+            GVAR(teleportMode) = false;
             _mapDisplay displayAddEventHandler ["KeyDown", {
                 params ["_display", "_keyCode"];
                 switch (_keyCode) do {
@@ -55,10 +55,36 @@ private _return = switch (_keyCode) do {
                         _display closeDisplay 1;
                         true
                     };
+                    case DIK_LCONTROL: {
+                        GVAR(teleportMode) = true;
+                    };
                     default {
                         false
                     };
                 };
+            }];
+
+            _mapDisplay displayAddEventHandler ["KeyUp", {
+                params ["", "_keyCode"];
+                switch (_keyCode) do {
+                    case DIK_LCONTROL: {
+                        GVAR(teleportMode) = true;
+                    };
+                    default {
+                        false
+                    };
+                };
+            }];
+
+            _map ctrlAddEventHandler ["MouseButtonClick", {
+                params ["_map", "_button", "_xPos", "_yPos"];
+                if (GVAR(teleportMode)) then {
+
+                    private _pos = _map ctrlMapScreenToWorld [_xPos, _yPos];
+                    _pos set [2, ((getPos GVAR(Camera)) select 2) + getTerrainHeightASL _pos];
+                    GVAR(CameraPos) = _pos;
+                };
+
             }];
 
             _map ctrlAddEventHandler ["Destroy", {
@@ -127,6 +153,7 @@ private _return = switch (_keyCode) do {
             true
         };
         GVAR(CameraFOV) = 0.75;
+        QGVAR(CameraFOVChanged) call CFUNC(localEvent);
         true
     };
     case DIK_RETURN: { // RETURN

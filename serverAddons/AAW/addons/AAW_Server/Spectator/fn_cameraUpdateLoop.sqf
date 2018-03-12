@@ -54,6 +54,8 @@ switch (GVAR(CameraMode)) do {
     };
 };
 
+GVAR(CameraPos) set [2,(getTerrainHeightASL GVAR(CameraPos)) max (GVAR(CameraPos) select 2)];
+
 private _position = GVAR(CameraPos);
 private _direction = GVAR(CameraDir) + GVAR(CameraDirOffset);
 private _pitch = GVAR(CameraPitch) + GVAR(CameraPitchOffset);
@@ -85,8 +87,6 @@ if (GVAR(CameraSmoothingTime) > 0) then {
 } else {
     GVAR(CameraPreviousState) = [];
 };
-
-_position set [2, (_position select 2) max (getTerrainHeightASL _position)];
 
 GVAR(Camera) setPosASL _position;
 GVAR(Camera) setVectorDirAndUp [[sin _direction * cos _pitch, cos _direction * cos _pitch, sin _pitch], [0, 0, cos _pitch]];

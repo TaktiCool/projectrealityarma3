@@ -37,6 +37,7 @@ if (GVAR(CameraSmoothingMode)) exitWith {
     QGVAR(CameraSmoothingChanged) call CFUNC(localEvent);
     true
 };
-GVAR(CameraFOV) = 0.01 max (2 min (GVAR(CameraFOV) + _delta));
+
+GVAR(CameraFOV) = 0.01 max (2 min (GVAR(CameraFOV) + ( (-_delta) / 10)));
 QGVAR(CameraFOVChanged) call CFUNC(localEvent);
 true
