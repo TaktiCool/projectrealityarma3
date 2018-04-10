@@ -13,7 +13,7 @@
     Returns:
     None
 */
-if (side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"}) exitWith {};
+if (CLib_Player call EFUNC(Common,isSpectator)) exitWith {};
 [QGVAR(vehicleRespawnAvailable), {
     params ["_args"];
     _args params ["_vehicle"];

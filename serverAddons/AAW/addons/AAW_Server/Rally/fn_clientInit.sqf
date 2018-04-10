@@ -13,7 +13,7 @@
     Returns:
     None
 */
-if (side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"}) exitWith {};
+if (CLib_Player call EFUNC(Common,isSpectator)) exitWith {};
 
 [QGVAR(deploymentPointRemoved), {
     (_this select 0) params ["_pointId"];

@@ -19,6 +19,13 @@ GVAR(ignoreVariables) = [
     toLower QEGVAR(Revive,damageWaitIsRunning)
 ];
 
+DFUNC(isSpectator) = {
+    params ["_player"];
+    ("Streamator" call CFUNC(modLoaded)
+     && {_player call Streamator_fnc_isSpectator})
+     || _player isKindOf "VirtualSpectator_F"
+};
+
 GVAR(allLocationTypes) = [];
 {
     GVAR(allLocationTypes) pushBack (configName _x);

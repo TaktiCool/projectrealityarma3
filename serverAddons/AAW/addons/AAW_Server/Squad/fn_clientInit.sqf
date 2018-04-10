@@ -46,7 +46,7 @@ GVAR(squadIds) = [
     "Zulu"
 ];
 
-if (side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"}) exitWith {};
+if (CLib_Player call EFUNC(Common,isSpectator)) exitWith {};
 
 GVAR(minSideSwitchTime) = getNumber (missionConfigFile >> QPREFIX >> "minSideSwitchTime");
 GVAR(isTimeUnlocked) = 0;

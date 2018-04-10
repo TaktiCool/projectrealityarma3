@@ -25,7 +25,7 @@ GVAR(lastFrameTriggered) = diag_frameNo;
 GVAR(processedIcons) = [];
 GVAR(lastProcessedIcons) = [];
 
-if (side CLib_player == sideLogic && {CLib_player isKindOf "VirtualSpectator_F"}) then {
+if (CLib_Player call EFUNC(Common,isSpectator)) then {
     DFUNC(isValidUnit) = {
         params ["_unit"];
         !isNull _unit && alive _unit && side group _unit in EGVAR(Common,CompetingSides) && simulationEnabled _unit;

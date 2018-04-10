@@ -45,7 +45,7 @@ private _ppColor = ppEffectCreate ["ColorCorrections", 1502];
     private _enemySide = (EGVAR(Common,competingSides) - [playerSide]) select 0;
     private _friendSide = playerSide;
 
-    if (side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"}) then {
+    if (CLib_Player call EFUNC(Common,isSpectator)) then {
         _endScreen = true;
         _enemySide = EGVAR(Common,competingSides) select 1;
         _friendSide = EGVAR(Common,competingSides) select 0;
@@ -269,7 +269,7 @@ private _ppColor = ppEffectCreate ["ColorCorrections", 1502];
 }, [_ppBlur, _ppColor]] call CFUNC(addEventhandler);
 
 // This events is trigger by the server to update the scores
-if (side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"}) then {
+if (CLib_Player call EFUNC(Common,isSpectator)) then {
     [QGVAR(ScoreUpdate), {
         private _display = uiNamespace getVariable [QGVAR(scoreTable), displayNull];
         if (isNull _display) exitWith {};

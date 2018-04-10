@@ -31,9 +31,8 @@ if (isServer) then {
 
 if (hasInterface) then {
     private _friendlySide = side group CLib_player;
-    private _isSpectator = side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"};
 
-    if (_isSpectator) then {
+    if (CLib_Player call EFUNC(Common,isSpectator)) then {
         _friendlySide = EGVAR(Common,competingSides) select 0;
     };
 

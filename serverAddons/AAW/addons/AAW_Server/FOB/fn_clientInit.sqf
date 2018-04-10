@@ -13,7 +13,7 @@
     Returns:
     None
 */
-if (side CLib_player == sideLogic && {player isKindOf "VirtualSpectator_F"}) exitWith {};
+if (CLib_Player call EFUNC(Common,isSpectator)) exitWith {};
 GVAR(sideNamespace) = false call CFUNC(createNamespace);
 
 [QGVAR(placed), {QGVAR(ClearFOBPlaceable) call CFUNC(localEvent)}] call CFUNC(addEventhandler); // clear Cached Call Space
