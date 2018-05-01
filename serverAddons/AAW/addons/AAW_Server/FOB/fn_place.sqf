@@ -29,10 +29,10 @@ params ["_target"];
     private _composition = getText (missionConfigFile >> QPREFIX >> "Sides" >> (str playerSide) >> "FOBComposition");
 
     deleteVehicle _target;
-    private _pointObjects = [_composition, _position, _dirVector, _target] call CFUNC(createSimpleObjectComp);
 
     private _text = [_position] call EFUNC(Common,getNearestLocationName);
-    private _pointId = ["FOB " + _text, "FOB", _position, playerSide, -1, "A3\ui_f\data\map\markers\military\triangle_ca.paa", "A3\ui_f\data\map\markers\military\triangle_ca.paa", _pointObjects] call EFUNC(Common,addDeploymentPoint);
+    private _pointId = ["FOB " + _text, "FOB", _position, playerSide, -1, "A3\ui_f\data\map\markers\military\triangle_ca.paa", "A3\ui_f\data\map\markers\military\triangle_ca.paa", -1] call EFUNC(Common,addDeploymentPoint);
+    [QGVAR(createSOBComp), [_composition, _position, _dirVector, _pointId]] call CFUNC(serverEvent);
 
     ["displayNotification", side group CLib_player, [
         "NEW FOB PLACED",

@@ -144,12 +144,12 @@ DFUNC(playRadioSound) = {
     params ["_pointId"];
     private _soundWaitIsRunning = [_pointId, "soundWaitIsRunning", 0] call EFUNC(Common,getDeploymentPointData);
     if (_soundWaitIsRunning == 0) then {
-        _pointId call FUNC(playRadioSoundLoop);
+        [_pointId, _soundWaitIsRunning] call FUNC(playRadioSoundLoop);
     };
 };
 
 DFUNC(playRadioSoundLoop) = {
-    params ["_pointId"];
+    params ["_pointId", "_soundWaitIsRunning"];
     private _obj = [_pointId, "pointobjects"] call EFUNC(Common,getDeploymentPointData);
     private _pos = [_pointId, "position"] call EFUNC(Common,getDeploymentPointData);
     _obj = selectRandom _obj;
@@ -200,3 +200,9 @@ DFUNC(playRadioSoundLoop) = {
         nil
     } count (call EFUNC(Common,getAllDeploymentPoints));
 }, 0.2] call CFUNC(addPerFrameHandler);
+
+[QGVAR(createSOBComp), {
+    (_this select 0) params ["_composition", "_position", "_dirVector", "_pointId"];
+    private _value = [_composition, _position, _dirVector] call CFUNC(createSimpleObjectComp);
+    [_pointId, "pointObjects", _value] call EFUNC(Common,setDeploymentPointData);
+}] call CFUNC(addEventhandler);
