@@ -28,6 +28,7 @@ class AAF_StandardSoldier : A3_StandardSoldier {
 
 class AAF_Rifleman : AAF_StandardSoldier {
     items[] = {"HandGrenade"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class AAF_SquadLeader : AAF_StandardSoldier {

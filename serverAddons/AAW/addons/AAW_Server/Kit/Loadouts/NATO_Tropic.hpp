@@ -28,6 +28,7 @@ class NATO_Tropic_StandardSoldier : A3_StandardSoldier {
 
 class NATO_Tropic_Rifleman : NATO_Tropic_StandardSoldier {
     items[] = {"HandGrenade"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class NATO_Tropic_SquadLeader : NATO_Tropic_StandardSoldier {

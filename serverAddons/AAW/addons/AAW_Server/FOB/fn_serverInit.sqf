@@ -142,7 +142,7 @@ GVAR(namespace) = false call CFUNC(createNamespace);
 
         [{
             params ["_pos"];
-            private _bomb = createVehicle ["M_Mo_82mm_AT_LG", [0, 0, 0], [], 0, "CAN_COLLIDE"];
+            private _bomb = createVehicle ["DemoCharge_Remote_Ammo_Scripted", [0, 0, 0], [], 0, "CAN_COLLIDE"];
             _bomb setPos _pos;
             _bomb setDamage 1;
         }, [_pos]] call CFUNC(execNextFrame);
@@ -238,7 +238,7 @@ DFUNC(playRadioSound) = {
 DFUNC(playRadioSoundLoop) = {
     params ["_pointId"];
     private _pos = [_pointId, "position"] call EFUNC(Common,getDeploymentPointData);
-    _obj = selectRandom (GVAR(compNamespace) getVariable [_pointId, []]);
+    _obj = selectRandom (CLib_SimpleObjectFramework_compNamespace getVariable [_pointId, []]);
     private _counterActive = [_pointId, "counterActive", 0] call EFUNC(Common,getDeploymentPointData);
     if (isNull _obj || _counterActive == 1) exitWith {
         [_pointId, "soundWaitIsRunning", 0] call EFUNC(Common,setDeploymentPointData);

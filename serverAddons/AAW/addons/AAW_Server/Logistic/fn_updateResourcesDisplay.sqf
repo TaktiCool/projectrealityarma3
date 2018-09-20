@@ -18,9 +18,11 @@
 
 _this params ["_display", "_contentGroup", "_resourcePoints"];
 
-private _teamResourcePoints = (missionNamespace getVariable [format [QEGVAR(Logistic,sideResources_%1), side group CLib_player], 0]);
+private _target = _display getVariable [QGVAR(target), objNull];
+if (isNull _target) exitWith {};
+private _supplyPoints = _target getVariable ["supplyPoints", 0];
 
-_resourcePoints ctrlSetText str _teamResourcePoints;
+_resourcePoints ctrlSetText format ["%1 / %2", (_target getVariable ["supplyPoints", 0]), (_target getVariable ["supplyCapacity", 0])];
 
 private _cfg = QUOTE(PREFIX/CfgLogistics/) + ([format [QUOTE(PREFIX/Sides/%1/logistics), side group CLib_player], ""] call CFUNC(getSetting));
 private _ctrlItems = _contentGroup getVariable [QGVAR(logisticItems), []];
@@ -33,10 +35,10 @@ _ctrlItems = [];
 {
     private _subcfg = _cfg + "/" + _x;
     private _content = [_subcfg + "/content"] call CFUNC(getSetting);
-    private _className = [_subcfg + "/classname"] call CFUNC(getSetting);
-    private _clearOnSpawn = ([_subcfg + "/removeDefaultLoadout"] call CFUNC(getSetting)) > 0;
+    //private _className = [_subcfg + "/classname"] call CFUNC(getSetting);
+    //private _clearOnSpawn = ([_subcfg + "/removeDefaultLoadout"] call CFUNC(getSetting)) > 0;
     private _displayName = [_subcfg + "/displayName"] call CFUNC(getSetting);
-    private _resources = [_subcfg + "/resources", 0] call CFUNC(getSetting);
+    private _supplyCost = [_subcfg + "/supplyCost", 0] call CFUNC(getSetting);
     private _picture = [_subcfg + "/picture", "\A3\3den\data\displays\display3den\panelright\modemodules_ca.paa"] call CFUNC(getSetting);
 
 
@@ -69,7 +71,7 @@ _ctrlItems = [];
     _itemCosts ctrlSetFontHeight PY(4);
     _itemCosts ctrlSetFont "RobotoCondensedBold";
     _itemCosts ctrlSetPosition [PX(48), PY(1), PX(10), PY(8)];
-    _itemCosts ctrlSetText str _resources;
+    _itemCosts ctrlSetText str _supplyCost;
     _itemCosts ctrlSetBackgroundColor [0.13,0.54,0.21,1];
     _itemCosts ctrlCommit 0;
 
@@ -116,13 +118,14 @@ _ctrlItems = [];
         } forEach _content;
     };
 
-    if (_teamResourcePoints >= _resources) then {
+    if (_supplyPoints >= _supplyCost) then {
         private _itemRequestButton = _display ctrlCreate ["RscButton", -1, _itemGroup];
         _itemRequestButton ctrlSetPosition [PX(48), PY(10), PX(10), PY(3)];
         _itemRequestButton ctrlSetFont "RobotoCondensed";
         _itemRequestButton ctrlSetFontHeight PY(2);
         _itemRequestButton ctrlSetText "REQUEST";
-        _itemRequestButton setVariable [QGVAR(args), [_className, _content, _clearOnSpawn, _displayName, _resources]];
+        //_itemRequestButton setVariable [QGVAR(args), [_className, _content, _clearOnSpawn, _displayName, _supplyPoints]];
+        _itemRequestButton setVariable [QGVAR(args), [_target, _subcfg]];
         _itemRequestButton ctrlAddEventHandler ["ButtonClick", {
             _this params ["_ctrl"];
             private _args = _ctrl getVariable [QGVAR(args), []];

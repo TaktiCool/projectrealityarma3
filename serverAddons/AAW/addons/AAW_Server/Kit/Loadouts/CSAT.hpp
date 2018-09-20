@@ -28,6 +28,7 @@ class CSAT_StandardSoldier : A3_StandardSoldier {
 
 class CSAT_Rifleman : CSAT_StandardSoldier {
     items[] = {"HandGrenade"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class CSAT_SquadLeader : CSAT_StandardSoldier {

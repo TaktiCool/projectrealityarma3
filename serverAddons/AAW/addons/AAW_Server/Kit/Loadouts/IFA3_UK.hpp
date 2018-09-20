@@ -42,6 +42,7 @@ class IFA3_UK_StandardSoldier : A3_StandardSoldier {
 
 class IFA3_UK_Rifleman : IFA3_UK_StandardSoldier {
     items[] = {"LIB_US_Mk_2"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class IFA3_UK_SquadLeader : IFA3_UK_StandardSoldier {

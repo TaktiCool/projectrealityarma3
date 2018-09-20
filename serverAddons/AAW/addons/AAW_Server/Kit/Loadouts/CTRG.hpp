@@ -28,6 +28,7 @@ class CTRG_StandardSoldier : A3_StandardSoldier {
 
 class CTRG_Rifleman : CTRG_StandardSoldier {
     items[] = {"HandGrenade"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class CTRG_SquadLeader : CTRG_StandardSoldier {

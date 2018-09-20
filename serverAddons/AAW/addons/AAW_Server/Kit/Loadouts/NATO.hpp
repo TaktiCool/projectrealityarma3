@@ -28,6 +28,7 @@ class NATO_StandardSoldier : A3_StandardSoldier {
 
 class NATO_Rifleman : NATO_StandardSoldier {
     items[] = {"HandGrenade"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class NATO_SquadLeader : NATO_StandardSoldier {

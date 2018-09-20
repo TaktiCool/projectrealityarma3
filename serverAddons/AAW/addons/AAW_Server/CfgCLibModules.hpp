@@ -133,11 +133,6 @@ class CfgCLibModules {
             FNC(clientInit);
         };*/
 
-        // Supply system
-        MODULE(Supply) {
-            FNC(clientInit);
-        };
-
         // Kit
         MODULE(Kit) {
             dependency[] = {"AAW/Common"};
@@ -152,9 +147,15 @@ class CfgCLibModules {
         // Logistic
         MODULE(Logistic) {
             dependency[] = {"AAW/Common"};
+            FNC(init);
             FNC(serverInit);
             FNC(clientInit);
             FNC(clientInitActions);
+            FNC(generateSupplyData);
+            FNC(generateSupplyDataVehicle);
+            FNC(infantryResupplyAction);
+            FNC(vehicleRearmAction);
+            FNC(refillSuppliesAction);
             FNC(clientInitCargoInventory);
             FNC(getWeight);
             FNC(dragObject);

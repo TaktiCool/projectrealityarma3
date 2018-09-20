@@ -223,32 +223,32 @@ GVAR(deactivateTicketSystem) = false;
             (_display displayCtrl 2012) ctrlCommit 0;
         };
 
-        private _fncUpdateResources = {
+        private _fncUpdateSupplyPoints = {
             private _display = uiNamespace getVariable [UIVAR(TicketStatus), displayNull];
             if (isNull _display) exitWith {};
 
             private _cfg = QUOTE(PREFIX/CfgLogistics/) + ([format [QUOTE(PREFIX/Sides/%1/logistics), side group CLib_player], ""] call CFUNC(getSetting));
-            private _maxResources = [_cfg + "/resourcesMax", 500] call CFUNC(getSetting);
+            private _maxSupplyPoints = [_cfg + "/supplyPointsMax", 500] call CFUNC(getSetting);
             private _textSize = PY(2.2) / (((((safeZoneW / safeZoneH) min 1.2) / 1.2) / 25) * 1);
-            private _resources = missionNamespace getVariable [format [QEGVAR(Logistic,sideResources_%1), side group CLib_player], 0];
+            private _supplyPoints = missionNamespace getVariable [format [QEGVAR(Logistic,supplyPoints_%1), side group CLib_player], 0];
 
-            (_display displayCtrl 2002) ctrlSetStructuredText parseText format ["<t size='%1' align='right' shadow=false>%2</t>", _textSize, _resources];
-            (_display displayCtrl 2001) ctrlSetPosition [PX(10*(1-(_resources/_maxResources))), 0, PX(10*(_resources/_maxResources)), PY(0.2)];
+            (_display displayCtrl 2002) ctrlSetStructuredText parseText format ["<t size='%1' align='right' shadow=false>%2</t>", _textSize, _supplyPoints];
+            (_display displayCtrl 2001) ctrlSetPosition [PX(10*(1-(_supplyPoints/_maxSupplyPoints))), 0, PX(10*(_supplyPoints/_maxSupplyPoints)), PY(0.2)];
             (_display displayCtrl 2001) ctrlCommit 0;
             (_display displayCtrl 2002) ctrlCommit 0;
         };
 
         ["playerSideChanged", _fncUpdateTickets] call CFUNC(addEventHandler);
-        ["playerSideChanged", _fncUpdateResources] call CFUNC(addEventHandler);
+        ["playerSideChanged", _fncUpdateSupplyPoints] call CFUNC(addEventHandler);
 
         ["ticketsChanged", _fncUpdateTickets] call CFUNC(addEventHandler);
 
-        ["resourcesChanged", _fncUpdateResources] call CFUNC(addEventHandler);
+        ["supplyPointsChanged", _fncUpdateSupplyPoints] call CFUNC(addEventHandler);
 
         {
-            (format [QEGVAR(Logistic,sideResources_%1), _x]) addPublicVariableEventHandler {
-                if ((_this select 0) != format [QEGVAR(Logistic,sideResources_%1), side group CLib_player]) exitWith {};
-                call _fncUpdateResources;
+            (format [QEGVAR(Logistic,supplyPoints_%1), _x]) addPublicVariableEventHandler {
+                if ((_this select 0) != format [QEGVAR(Logistic,supplyPoints_%1), side group CLib_player]) exitWith {};
+                call _fncUpdateSupplyPoints;
             };
         } count EGVAR(Common,competingSides);
 
@@ -269,6 +269,6 @@ GVAR(deactivateTicketSystem) = false;
         }] call CFUNC(addEventHandler);
 
         [] call _fncUpdateTickets;
-        [] call _fncUpdateResources;
+        [] call _fncUpdateSupplyPoints;
     };
 }, {!isNil QEGVAR(Common,competingSides) && {!(EGVAR(Common,competingSides) isEqualTo [])}}] call CFUNC(waitUntil);

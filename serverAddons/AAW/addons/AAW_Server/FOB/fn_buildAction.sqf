@@ -13,18 +13,18 @@
     Returns:
     None
 */
-params ["_types"];
+
 private _title = "Build";
 private _iconIdle = "\a3\ui_f\data\gui\rsc\rscdisplayarsenal\map_ca.paa";
 private _iconProgress = "\a3\ui_f\data\gui\rsc\rscdisplayarsenal\map_ca.paa";
 private _showCondition = {
     CLib_Player distance _target <= 5 && simulationEnabled _target
+    && _target getVariable ["FOBBoxObject", 0] == 1
+    && _target getVariable ["FOBState", 0] == 0
      && {[QGVAR(isFOBPlaceable), FUNC(canPlace), [_target], 5, QGVAR(ClearFOBPlaceable)] call CFUNC(cachedCall)}
-     && {(GVAR(sideNamespace) getVariable (toLower str side group CLib_Player)) == typeOf _target}
 };
 
 GVAR(buildStartTime) = -1;
-GVAR(currentFob) = "";
 private _onStart = {
     params ["_target", "_caller"];
 
@@ -46,4 +46,4 @@ private _onInterruption = {
     GVAR(buildStartTime) = -1;
 };
 
-[_types, _title, _iconIdle, _iconProgress, _showCondition, _showCondition, _onStart, _onProgress, _onComplete, _onInterruption, [], 5000, true, true] call CFUNC(addHoldAction);
+["Thing", _title, _iconIdle, _iconProgress, _showCondition, _showCondition, _onStart, _onProgress, _onComplete, _onInterruption, [], 5000, true, true] call CFUNC(addHoldAction);

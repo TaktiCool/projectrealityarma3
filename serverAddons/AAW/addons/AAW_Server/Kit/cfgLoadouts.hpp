@@ -1,5 +1,9 @@
 class CfgCLibLoadoutsClassBase;
 
+class AAW_AmmoBox {
+    ammoBox[] = {150,150};
+};
+
 class A3_BasicItems : CfgCLibLoadoutsClassBase {
     linkedItems[] = {"ItemWatch", "ItemCompass", "ItemRadio", "ItemMap", "ItemGPS"};
 };

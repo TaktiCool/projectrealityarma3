@@ -17,29 +17,20 @@ private _title = "Defuse";
 private _iconIdle = "\A3\Ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa";
 private _iconProgress = "\A3\Ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa";
 private _showCondition = {
-    call {
-        scopeName "ActionCondition";
-        {
-            private _pointDetails = [_x, ["type", "position", "availablefor", "counterActive"]] call EFUNC(Common,getDeploymentPointData);
-            _pointDetails params [["_type", ""], ["_position", [0, 0, 0]], ["_availableFor", sideUnknown], ["_counterActive", 0]];
-
-            if (_type == "FOB" && {CLib_Player distance _position <= 5 && _counterActive == 1 && _availableFor == side group CLib_Player}) then {
-                GVAR(currentFob) = _x;
-                private _inVew = [CLib_Player, _position, 1.55] call CFUNC(inFOV);
-                _inVew breakOut "ActionCondition";
-            };
-        } count (call EFUNC(Common,getAllDeploymentPoints));
-        false
-    };
+    _target getVariable ["FOBState", 0] == 1 && {CLib_Player distance _target <= 5}
+    && {
+        private _pointDetails = [_target getVariable [QGVAR(fobId), 0], ["availablefor", "counterActive"]] call EFUNC(Common,getDeploymentPointData);
+        _pointDetails params [["_availableFor", sideUnknown], ["_counterActive", 0]];
+        _counterActive == 1 && _availableFor == side group CLib_Player;
+    }
 };
 
 GVAR(defuseStartTime) = -1;
-GVAR(currentFob) = "";
 private _onStart = {
     params ["_target", "_caller"];
 
     GVAR(defuseStartTime) = time;
-    [QGVAR(stopDestroyTimer), [GVAR(currentFob)]] call CFUNC(serverEvent);
+    [QGVAR(stopDestroyTimer), [_target getVariable [QGVAR(fobId), ""]]] call CFUNC(serverEvent);
 };
 
 private _onProgress = {
@@ -50,13 +41,14 @@ private _onComplete = {
     params ["_target", "_caller"];
 
     GVAR(defuseStartTime) = -1;
-    [QGVAR(resetDestroyTimer), [GVAR(currentFob)]] call CFUNC(serverEvent);
+
+    [QGVAR(resetDestroyTimer), [_target getVariable [QGVAR(fobId), ""]]] call CFUNC(serverEvent);
 };
 
 private _onInterruption = {
     params ["_target", "_caller"];
-    [QGVAR(continueDestroyTimer), [GVAR(currentFob)]] call CFUNC(serverEvent);
+    [QGVAR(continueDestroyTimer), [_target getVariable [QGVAR(fobId), ""]]] call CFUNC(serverEvent);
     GVAR(defuseStartTime) = -1;
 };
 
-[CLib_Player, _title, _iconIdle, _iconProgress, _showCondition, _showCondition, _onStart, _onProgress, _onComplete, _onInterruption, [], 5000, true, true] call CFUNC(addHoldAction);
+["Thing", _title, _iconIdle, _iconProgress, _showCondition, _showCondition, _onStart, _onProgress, _onComplete, _onInterruption, [], 5000, true, true] call CFUNC(addHoldAction);

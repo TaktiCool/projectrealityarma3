@@ -21,14 +21,8 @@ GVAR(sideNamespace) = false call CFUNC(createNamespace);
 /*
  * ACTIONS
 */
-{
-    private _objectType = getText (_x >> "FOBBoxObject");
-    _objectType call FUNC(buildAction); // Add Build Action
 
-    GVAR(sideNamespace) setVariable [toLower configName _x, _objectType];
-    nil
-} count ("true" configClasses (missionConfigFile >> QPREFIX >> "Sides"));
-
+call FUNC(buildAction);
 call FUNC(dismantleAction);
 call FUNC(destroyAction);
 call FUNC(defuseAction);

@@ -22,6 +22,10 @@
 #define T_VTOL_TRANSPORT 20
 #define T_VTOL_ARMED 25
 
+#define S_CAP_TRUCK 10000
+#define S_CAP_CONSTRUCTION_TRUCK 50000
+#define S_CAP_CAR 2000
+
 class defaultVehicle {
     respawnCondition = "true";
     side = "UNKNOWN";
@@ -48,7 +52,8 @@ class CfgEntities {
     class Box_East_Ammo_F : Box_Nato_Ammo_F {
     };
 
-    class ReammoBox_F : Box_Nato_Ammo_F {};
+    class ReammoBox_F : Box_Nato_Ammo_F {
+    };
 
     class Box_IND_Ammo_F : Box_Nato_Ammo_F {
     };
@@ -76,14 +81,15 @@ class CfgEntities {
     };
 
     /*
-    Vehicle Config
+    Vehicle Config VANILLA ARMA
     */
     // TRUCKS
     class Truck_01_base_F {
         side = "WEST";
-        cargoCapacity = 50;
         respawnTime = 180;
         ticketValue = T_TRUCK_TRANSPORT;
+        supplyType[] = {"Medical", "AmmoInfantery"};
+        supplyCapacity = S_CAP_TRUCK;
     };
 
     class B_Truck_01_Ammo_F {
@@ -91,6 +97,9 @@ class CfgEntities {
     };
 
     class B_Truck_01_box_F : B_Truck_01_Ammo_F {
+        constructionVehicle = 1;
+        supplyCapacity = S_CAP_CONSTRUCTION_TRUCK;
+        supplyType[] = {"Medical", "Ammo"};
     };
 
     class B_Truck_01_fuel_F : B_Truck_01_Ammo_F {
@@ -110,6 +119,9 @@ class CfgEntities {
     };
 
     class I_Truck_02_box_F : I_Truck_02_Ammo_F {
+        constructionVehicle = 1;
+        supplyCapacity = S_CAP_CONSTRUCTION_TRUCK;
+        supplyType[] = {"Medical", "Ammo"};
     };
 
     class I_Truck_02_fuel_F : I_Truck_02_Ammo_F {
@@ -126,6 +138,9 @@ class CfgEntities {
     };
 
     class O_Truck_02_box_F : O_Truck_02_Ammo_F {
+        constructionVehicle = 1;
+        supplyCapacity = S_CAP_CONSTRUCTION_TRUCK;
+        supplyType[] = {"Medical", "Ammo"};
     };
 
     class O_Truck_02_fuel_F : O_Truck_02_Ammo_F {
@@ -152,6 +167,9 @@ class CfgEntities {
     };
 
     class O_Truck_03_box_F : O_Truck_02_Ammo_F {
+        constructionVehicle = 1;
+        supplyCapacity = S_CAP_CONSTRUCTION_TRUCK;
+        supplyType[] = {"Medical", "Ammo"};
     };
 
     class O_Truck_03_fuel_F : O_Truck_02_Ammo_F {
@@ -169,6 +187,8 @@ class CfgEntities {
         cargoCapacity = 20;
         respawnTime = 300;
         ticketValue = T_MRAP;
+        supplyType[] = {"Medical", "AmmoInfantery"};
+        supplyCapacity = S_CAP_CAR;
     };
 
     class MRAP_01_hmg_base_F {
@@ -223,6 +243,8 @@ class CfgEntities {
         cargoCapacity = 25;
         respawnTime = 420;
         ticketValue = T_APC_WHEELED;
+        supplyType[] = {"Medical", "AmmoInfantery"};
+        supplyCapacity = S_CAP_CAR;
     };
 
     class APC_Wheeled_02_base_F : APC_Wheeled_01_base_F {
@@ -304,7 +326,7 @@ class CfgEntities {
     class O_Heli_Transport_04_covered_F : Heli_Transport_04_base_F { //Mi-290 Taru (Transport)
         cargoCapacity = 50;
     };
-	
+
     class O_Heli_Transport_04_box_F : Heli_Transport_04_base_F { //Mi-290 Taru (Cargo)
         cargoCapacity = 100;
     };
@@ -331,24 +353,24 @@ class CfgEntities {
     };
 
     // Planes
-    // WEST	
+    // WEST
     class Plane_CAS_01_base_F : defaultVehicle { //A-164 Wipeout
         side = "WEST";
         respawnTime = 600;
         ticketValue = T_PLANE_CAS;
-    };	
+    };
 
     class Plane_Fighter_01_Base_F : Plane_CAS_01_base_F { //F/A-181 Black Wasp II
         ticketValue = T_PLANE_FIGHTER;
     };
-	
-    // EAST	
+
+    // EAST
     class Plane_CAS_02_base_F : defaultVehicle { //To-199 Neophron
         side = "EAST";
         respawnTime = 600;
         ticketValue = T_PLANE_CAS;
-    };	
-	
+    };
+
     class Plane_Fighter_02_Base_F : Plane_CAS_02_base_F { //To-201 Shikra
         ticketValue = T_PLANE_FIGHTER;
     };
@@ -359,14 +381,14 @@ class CfgEntities {
         respawnTime = 600;
         ticketValue = T_PLANE_FIGHTER;
     };
-	
+
     class I_Plane_Fighter_03_CAS_F : Plane_Fighter_03_base_F { //A-143 Buzzard (CAS)
         ticketValue = T_PLANE_CAS;
-    };	
+    };
 
     class Plane_Fighter_04_Base_F : Plane_Fighter_03_base_F { //A-149 Gryphon
-    };	
-	
+    };
+
 	//VTOL
 	//WEST
     class VTOL_01_unarmed_base_F : defaultVehicle { //V-44 X Blackfish
@@ -375,17 +397,52 @@ class CfgEntities {
         respawnTime = 420;
         ticketValue = T_VTOL_TRANSPORT;
     };
-	
+
     class VTOL_01_armed_base_F : VTOL_01_unarmed_base_F { //V-44 X Blackfish (Armed)
 		respawnTime = 600;
         ticketValue = T_VTOL_ARMED;
     };
-	
-    // EAST	
+
+    // EAST
     class VTOL_02_vehicle_base_F : defaultVehicle { //Y-32 Xi'an
         side = "EAST";
 		cargoCapacity = 100;
         respawnTime = 600;
         ticketValue = T_VTOL_ARMED;
+    };
+
+    /*
+    Vehicle Config IFA3
+    */
+    /*
+    Vehicle Config
+    */
+    // TRUCKS
+    class LIB_Truck_base {
+        side = "WEST";
+        cargoCapacity = 50;
+        respawnTime = 180;
+        ticketValue = T_TRUCK_TRANSPORT;
+    };
+
+    class LIB_Scout_M3_base : LIB_Truck_base {
+        side = "GUER";
+    };
+
+    class LIB_US_GMC_Base : LIB_Truck_base {
+        side = "GUER";
+    };
+
+
+    // MRAPs
+    class LIB_Car_base : defaultVehicle {
+        side = "WEST";
+        cargoCapacity = 20;
+        respawnTime = 300;
+        ticketValue = T_MRAP;
+    };
+
+    class LIB_Willys_MB_base : LIB_Car_base {
+        side = "GUER";
     };
 };

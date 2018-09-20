@@ -18,7 +18,7 @@
 
     private _position = CLib_Player modelToWorld [0, 1.5, 0];
     if (CLib_Player distance _position >= 20) exitWith {
-        ["RALLY POINT NOT PLACABLE", "Not enough space available!"] call EFUNC(Common,displayHint);
+        ["RALLY POINT NOT PLACEABLE", "Not enough space available!"] call EFUNC(Common,displayHint);
     };
 
     [group CLib_Player] call FUNC(destroy);
@@ -30,7 +30,16 @@
     private _composition = getText (missionConfigFile >> QPREFIX >> "Sides" >> (str playerSide) >> "RallyComposition");
     private _dirVector = vectorDirVisual CLib_Player;
 
-    [_pointId, _composition, _position, _dirVector, CLib_player] call CFUNC(createSimpleObjectComp);
+    [_pointId, _composition, _position, _dirVector, CLib_player, objNull, [CLib_player, {
+        params ["_uid"];
+
+        {
+            ["enableSimulation", _x, [_x, false]] call CFUNC(targetEvent);
+            _x setVariable ["side", str side group CLib_player, true];
+            _x setVariable [QGVAR(rallyId), _uid, true];
+            nil;
+        } count (CLib_SimpleObjectFramework_compNamespace getVariable [_uid, []]);
+    }]] call CFUNC(createSimpleObjectComp);
     [_pointId, "pointObjects", _pointId] call EFUNC(Common,setDeploymentPointData);
 
     (group CLib_Player) setVariable [QGVAR(rallyId), _pointId, true];

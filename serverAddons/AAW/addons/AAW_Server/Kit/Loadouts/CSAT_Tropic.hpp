@@ -28,6 +28,7 @@ class CSAT_Tropic_StandardSoldier : A3_StandardSoldier {
 
 class CSAT_Tropic_Rifleman : CSAT_Tropic_StandardSoldier {
     items[] = {"HandGrenade"};
+    class PortableAmmoBox : AAW_AmmoBox{};
 };
 
 class CSAT_Tropic_SquadLeader : CSAT_Tropic_StandardSoldier {
