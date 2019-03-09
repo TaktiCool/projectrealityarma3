@@ -9,4 +9,5 @@ class CfgCLibSettings {
     aaw_cfgSides[] = {"AAW", "Sides"};
     aaw_cfgGroupTypes[] = {"AAW", "CfgGroupTypes"};
     aaw_cfgRespawn[] = {"AAW", "CfgRespawn"};
+    aaw_cfgMapMarker[] = {"AAW", "CfgMapMarker"};
 };

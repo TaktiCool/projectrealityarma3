@@ -10,5 +10,6 @@ class PREFIX {
     #include "\tc\AAW\addons\AAW_Server\Logistic\cfgLogistics.hpp"
     #include "\tc\AAW\addons\AAW_Server\Squad\cfgGroupTypes.hpp"
     #include "\tc\AAW\addons\AAW_Server\RespawnUI\cfgRespawn.hpp"
+    #include "\tc\AAW\addons\AAW_Server\MapMarker\cfgMapMarker.hpp"
     #include "\tc\AAW\addons\AAW_Server\CfgEntities.hpp"
 };
