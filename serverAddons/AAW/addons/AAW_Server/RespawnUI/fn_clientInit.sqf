@@ -41,40 +41,10 @@ if (side CLib_player == sideLogic && {CLib_player isKindOf "VirtualSpectator_F"}
 
 // Wait for the mission start first.
 ["missionStarted", {
-    // Choose the initial side for the player before showing the respawn screen.
-    [QGVAR(SideSelection)] call BIS_fnc_startLoadingScreen;
 
-    // We need a mutex to ensure the player detects the side with fewest players correctly
-    [{
-        50 call BIS_fnc_progressLoadingScreen;
-
-        // Calculate the side with fewest players
-        private _leastPlayerSide = sideUnknown;
-        private _leastPlayerCount = 999;
-        {
-            private _side = _x;
-            private _playerCount = {side group _x == _side} count allPlayers;
-            if (_playerCount < _leastPlayerCount) then {
-                _leastPlayerSide = _side;
-                _leastPlayerCount = _playerCount;
-            };
-            nil
-        } count EGVAR(Common,competingSides);
-
-        // Move the player to the side
-        private _initialUnit = CLib_Player;
-        [[-1000, -1000, 10], _leastPlayerSide] call EFUNC(Common,respawnNewSide);
-        deleteVehicle _initialUnit;
-
-        // Open the respawn UI
-        [{
-            [QGVAR(SideSelection)] call BIS_fnc_endLoadingScreen;
-
-            private _welcomeScreenDisplay = (findDisplay 46) createDisplay "RscDisplayLoadMission";
-            [UIVAR(WelcomeScreen_onLoad), _welcomeScreenDisplay] call CFUNC(localEvent);
-        }] call CFUNC(execNextFrame);
-
-    }, [], "respawn"] call CFUNC(mutex);
+    [QGVAR(SideSelection)] call BIS_fnc_endLoadingScreen;
+    private _welcomeScreenDisplay = (findDisplay 46) createDisplay "RscDisplayLoadMission";
+    [UIVAR(WelcomeScreen_onLoad), _welcomeScreenDisplay] call CFUNC(localEvent);
 }] call CFUNC(addEventHandler);
 
 [UIVAR(WelcomeScreen_onLoad), {
@@ -102,6 +72,32 @@ if (side CLib_player == sideLogic && {CLib_player isKindOf "VirtualSpectator_F"}
     _continueButton ctrlSetText "CONTINUE";
     _continueButton ctrlAddEventHandler ["ButtonClick", {
         [{
+            // Choose the initial side for the player before showing the respawn screen.
+            [QGVAR(SideSelection)] call BIS_fnc_startLoadingScreen;
+
+            // We need a mutex to ensure the player detects the side with fewest players correctly
+            [{
+                50 call BIS_fnc_progressLoadingScreen;
+
+                // Calculate the side with fewest players
+                private _leastPlayerSide = sideUnknown;
+                private _leastPlayerCount = 999;
+                {
+                    private _side = _x;
+                    private _playerCount = {side group _x == _side} count allPlayers;
+                    if (_playerCount < _leastPlayerCount) then {
+                        _leastPlayerSide = _side;
+                        _leastPlayerCount = _playerCount;
+                    };
+                    nil
+                } count EGVAR(Common,competingSides);
+
+                // Move the player to the side
+                private _initialUnit = CLib_Player;
+                [[-1000, -1000, 10], _leastPlayerSide] call EFUNC(Common,respawnNewSide);
+                deleteVehicle _initialUnit;
+
+            }, [], "respawn"] call CFUNC(mutex);
             showChat true;
             (findDisplay 46) createDisplay UIVAR(RespawnScreen);
         }] call CFUNC(execNextFrame);
